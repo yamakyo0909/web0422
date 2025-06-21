@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>自由亂跑的桌寵</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #fdfdfd;
+    }
+
+    #pet {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      transition: left 2s linear, top 2s linear, transform 0.3s;
+    }
+
+    #pet img {
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+<div id="pet">
+  <img src="CHII.jpg" id="petImg" alt="桌寵">
+</div>
+
+<script>
+  const pet = document.getElementById('pet');
+  const petImg = document.getElementById('petImg');
+  let currentFrame = 'CHII.jpg';
+
+  // 切換圖片 (CHII.jpg 和 HACHI.jpg)
+  setInterval(() => {
+    currentFrame = currentFrame === 'CHII.jpg' ? 'HACHI.jpg' : 'CHII.jpg';
+    petImg.src = currentFrame;
+  }, 400);
+
+  // 桌寵亂跑邏輯
+  function moveRandomly() {
+    const maxX = window.innerWidth - pet.offsetWidth;
+    const maxY = window.innerHeight - pet.offsetHeight;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    // 如果往右，就正向；往左就翻轉
+    const currentX = parseFloat(pet.style.left) || 0;
+    if (newX > currentX) {
+      pet.style.transform = 'scaleX(1)';
+    } else {
+      pet.style.transform = 'scaleX(-1)';
+    }
+
+    pet.style.left = newX + 'px';
+    pet.style.top = newY + 'px';
+
+    // 每 2 秒換一個方向
+    setTimeout(moveRandomly, 2000);
+  }
+
+  // 初始化位置
+  pet.style.left = '0px';
+  pet.style.top = '0px';
+  moveRandomly();
+</script>
+</body>
+</html>
